@@ -11,15 +11,15 @@ fenster.geometry("322x699")
 fenster.config(bg="#000000")
 from PIL import Image, ImageTk
 
-# PNG oder ICO laden
-icon_path = r"C:\Users\Jonathan\Desktop\Programs VSCode\Python\GUI_endziel_BMI_Rechner\calc_icon.ico"
-pil_image = Image.open(icon_path)
 
-# In Tkinter PhotoImage konvertieren
-icon_image = ImageTk.PhotoImage(pil_image)
+#icon_path = r"C:\Users\Jonathan\Desktop\Programs VSCode\Python\GUI_endziel_BMI_Rechner\calc_icon.ico"
+#pil_image = Image.open(icon_path)
 
-# Icon setzen
-fenster.iconphoto(True, icon_image)
+
+#icon_image = ImageTk.PhotoImage(pil_image)
+
+
+#fenster.iconphoto(True, icon_image)
 
 
 
@@ -446,3 +446,4 @@ Ausdruck = ""
 
 
 fenster.mainloop()
+
