@@ -1,10 +1,12 @@
 import customtkinter as ctk
 from PIL import Image
 from datetime import datetime
+import os
 
 bmi = None
 
-#theme_path = r"C:\Users\Jonathan\Desktop\Programs VSCode\Python\GUI_endziel_BMI_Rechner\my_theme.json"
+# Basis-Verzeichnis der aktuellen Datei
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 ctk.set_appearance_mode("Dark")
 #ctk.set_default_color_theme("theme_path")
@@ -18,13 +20,11 @@ StartSeite = ctk.CTkFrame(fenster, fg_color="#4149D1")
 StartSeite.pack(fill="both", expand=True)
 
 Rechner = ctk.CTkFrame(fenster, fg_color="#A3B1FF")
-
 Verlauf = ctk.CTkFrame(fenster, fg_color="#37417A")
 
 def BMIBx2():
     BMIBerechnen()
     VerlaufSpeichern()
-
 
 def ButtonClick():
     StartSeite.pack_forget()
@@ -47,30 +47,28 @@ def BMIBerechnen():
     bmi = wert2 / wert1 ** 2
     LabelError.configure(text=f"Dein BMI beträgt: {bmi:.2f}")
 
-    grafik_path = r"C:\Users\Jonathan\Desktop\Programs VSCode\Python\GUI_endziel_BMI_Rechner\BMIGrafik.png"
+    grafik_path = os.path.join(BASE_DIR, "BMIGrafik.png")
     pil_image = Image.open(grafik_path)     
 
     ctk_image = ctk.CTkImage(
         light_image=pil_image,
         dark_image=pil_image,
         size=(500, 400)
-        )
+    )
     
     image_label = ctk.CTkLabel(
-    Rechner,
-    image=ctk_image,
-    text=""
-)
+        Rechner,
+        image=ctk_image,
+        text=""
+    )
     image_label.place(x=500, y=200)
-
-
+    image_label.image = ctk_image 
 
 def VerlaufÖffnen():
     if bmi is None:
         return
     Rechner.pack_forget()
     Verlauf.pack(fill="both", expand=True)
-
 
 def VerlaufSchließen():
     Verlauf.pack_forget()
@@ -99,19 +97,17 @@ def VerlaufSpeichern():
     )
     LabelVerlaufDatum.pack(padx=25, pady=10)
 
-
 datum = datetime.now().strftime("%d.%m.%Y")
 print(datum)
 
-
-image_path = r"C:\Users\Jonathan\Desktop\Programs VSCode\Python\GUI_endziel_BMI_Rechner\startseite.png"
+# Startseiten-Bild
+image_path = os.path.join(BASE_DIR, "startseite.png")
 pil_image = Image.open(image_path)
 
 ctk_image = ctk.CTkImage(
     light_image=pil_image,
     dark_image=pil_image,
     size=(1080, 620),
-    
 )
 
 LabelError = ctk.CTkLabel(
@@ -129,17 +125,17 @@ image_label = ctk.CTkLabel(
     text=""
 )
 image_label.place(x=0, y=0)
-
+image_label.image = ctk_image  # Referenz behalten
 
 StartenB = ctk.CTkButton(
     StartSeite,
     text="Starte den BMI-Rechner",
-    width= 120,
-    height= 40,
+    width=120,
+    height=40,
     fg_color="#A3B1FF",
     text_color="#1D237E",
     hover_color="#606791",
-    command= ButtonClick,
+    command=ButtonClick,
     corner_radius=20,
     font=("Helvetica", 14, "bold")
 )
@@ -154,7 +150,6 @@ Label1 = ctk.CTkLabel(
     justify="left",
     font=("Helvetica", 24, "bold")
 )
-
 Label1.place(x=10, y=10)
 
 Label2 = ctk.CTkLabel(
@@ -172,7 +167,7 @@ Label3 = ctk.CTkLabel(
     text="Er wird berechnet nach der Formel:",
     text_color="#1D237E",
     pady=10,
-    font=("Helveticy", 14, "bold"),
+    font=("Helvetica", 14, "bold"),
     justify="left"
 )
 Label3.place(x=10, y=100)
@@ -202,7 +197,7 @@ Label6 = ctk.CTkLabel(
     pady=10,
     font=("Helvetica", 14, "bold")
 )
-Label6. place(x=30, y=220)
+Label6.place(x=30, y=220)
 
 EntryGewicht = ctk.CTkEntry(
     Rechner,
@@ -220,7 +215,7 @@ Label7 = ctk.CTkLabel(
     pady=10,
     font=("Helvetica", 14, "bold")
 )
-Label7. place(x=30, y=320)
+Label7.place(x=30, y=320)
 
 EntryGröße = ctk.CTkEntry(
     Rechner,
@@ -234,12 +229,12 @@ EntryGröße.place(x=30, y=360)
 BMIB = ctk.CTkButton(
     Rechner,
     text="BMI berechnen",
-    width= 120,
-    height= 40,
+    width=120,
+    height=40,
     fg_color="#4149D1",
     text_color="#1D237E",
     hover_color="#606791",
-    command= BMIBx2,
+    command=BMIBx2,
     corner_radius=20,
     font=("Helvetica", 14, "bold")
 )
@@ -248,12 +243,12 @@ BMIB.place(x=30, y=410)
 VerlaufB = ctk.CTkButton(
     Rechner,
     text="◴",
-    width= 30,
-    height= 20,
+    width=30,
+    height=20,
     fg_color="#A3B1FF",
     text_color="#1D237E",
     hover_color="#A3B1FF",
-    command= VerlaufÖffnen,
+    command=VerlaufÖffnen,
     font=("Helvetica", 24, "bold")
 )
 VerlaufB.place(x=1000, y=30)
@@ -261,14 +256,14 @@ VerlaufB.place(x=1000, y=30)
 VerlaufSch = ctk.CTkButton(
     Verlauf,
     text="🗙",
-    width= 30,
-    height= 30,
+    width=30,
+    height=30,
     fg_color="#37417A",
     text_color="#A3B1FF",
     hover_color="#37417A",
-    command= VerlaufSchließen,
+    command=VerlaufSchließen,
     font=("Arial", 20, "bold")
-    )
+)
 VerlaufSch.place(x=1000, y=30)
 
 Label1Verlauf = ctk.CTkLabel(
@@ -279,4 +274,5 @@ Label1Verlauf = ctk.CTkLabel(
     font=("Helvetica", 24, "bold")
 )
 Label1Verlauf.place(x=50, y=50)
+
 fenster.mainloop()
